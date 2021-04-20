@@ -1,0 +1,22 @@
+# Plan
+
+This application must do the following things:
+
+1) Take pictures of cards in real life
+  - Must recognize the card (Maybe reverse google image search?)
+2) Connect to scryfall for card data (Price, rules text, etc)
+  - Primarily for card prices
+3) Store cards in a collection
+  - Possibly have multiple collections
+  - Must be able to remove cards
+  - Easily accessible, maybe sortable
+  - Profiles?
+  - Web page for cross device usage?
+
+4) Work on an android phone
+
+Pipeline/Use Cases:
+
+1) The user has their collection of cards at the ready and just wants to add the cards they have into their collection. They open the camera part of the app, they take a picture of a card, that card is automatically added into their collection, and then they move onto the next card.
+
+2) The user wants to modify their saved collection. Maybe they've sold their cards? They open the database section where they're presented with some UI that allows them to browse their collection, see the prices of their cards, how many of that card they have, how many editions, etc, and then if they want to delete that card they can. 
