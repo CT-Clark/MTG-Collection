@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +21,9 @@ public class MainActivity extends AppCompatActivity {
         collectionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent startIntent = new Intent(getApplicationContext(), CollectionActivity.class);
+                startIntent.putExtra("CollectionScreen", "Collection Screen");
+                startActivity(startIntent);
             }
         });
 
