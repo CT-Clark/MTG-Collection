@@ -55,8 +55,20 @@ public class MainActivity extends AppCompatActivity {
             cameraButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CardModel cm = new CardModel();
-                    openCamera();
+                    CardModel cm;
+
+                    try {
+                        cm = new CardModel(-1, "Sol Ring", "www.scryfall.com/sol_ring");
+                        DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
+                        boolean success = dataBaseHelper.addOne(cm);
+                        Toast.makeText(MainActivity.this, "Success=" + success, Toast.LENGTH_SHORT).show();
+
+                        openCamera();
+                    }
+                    catch (Exception e) {
+                        Toast.makeText(MainActivity.this, "DB ERROR", Toast.LENGTH_SHORT).show();
+                        cm = new CardModel(-1, "ERROR", "ERROR");
+                    }
                 }
             });
         };
