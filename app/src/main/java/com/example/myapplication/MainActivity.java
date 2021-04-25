@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -23,16 +24,20 @@ public class MainActivity extends AppCompatActivity {
     public static final String ALLOW_KEY = "ALLOWED";
     public static final String CAMERA_PREF = "camera_pref";
 
+    // References to controls
+    //Button collectionButton;
+    //Button cameraButton;
+
     // What happens when the app is opened
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        askForPermissions();
-
         Button collectionButton = findViewById(R.id.collectionButton);
         Button cameraButton = findViewById(R.id.cameraButton);
+
+        askForPermissions();
 
         // Go to the user's collection
         collectionButton.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
             cameraButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    CardModel cm = new CardModel();
                     openCamera();
                 }
             });
@@ -64,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Check that the user has given us permission to access the camera
     private void askForPermissions() {
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             if (getFromPref(this, ALLOW_KEY)) {
                 showSettingsAlert();
@@ -99,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Show an alert to the user asking them to allow or disallow camera permissions
     private void showAlert() {
+
         AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
         alertDialog.setTitle("Alert");
         alertDialog.setMessage("App needs to access the Camera.");
@@ -130,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Alert the user that the app needs camera permission and bring them to the settings
     private void showSettingsAlert() {
+        Toast.makeText(MainActivity.this, "showingAlert", Toast.LENGTH_SHORT).show();
         AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
         alertDialog.setTitle("Alert");
         alertDialog.setMessage("App needs to access the Camera.");
