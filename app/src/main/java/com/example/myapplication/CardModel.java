@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
-public class CardModel {
+import java.io.Serializable;
+
+public class CardModel implements Serializable {
 
     // Fields
     private int id;

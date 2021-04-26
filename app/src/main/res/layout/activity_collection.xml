@@ -6,12 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".CollectionActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/collectionGallery"
+    <ListView
+        android:id="@+id/cardList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="48dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

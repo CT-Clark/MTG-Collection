@@ -25,8 +25,9 @@ public class MainActivity extends AppCompatActivity {
     public static final String CAMERA_PREF = "camera_pref";
 
     // References to controls
-    //Button collectionButton;
-    //Button cameraButton;
+    Button collectionButton;
+    Button cameraButton;
+    DataBaseHelper dataBaseHelper;
 
     // What happens when the app is opened
     @Override
@@ -34,45 +35,50 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button collectionButton = findViewById(R.id.collectionButton);
-        Button cameraButton = findViewById(R.id.cameraButton);
+        collectionButton = findViewById(R.id.collectionButton);
+        cameraButton = findViewById(R.id.cameraButton);
+        dataBaseHelper = new DataBaseHelper(MainActivity.this);
 
         askForPermissions();
 
         // Go to the user's collection
         collectionButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(getApplicationContext(), CollectionActivity.class);
+                SerializableList cardList = new SerializableList();
+                cardList.setCards(dataBaseHelper.getAll());
+
+                Intent startIntent = new Intent(MainActivity.this, CollectionActivity.class);
                 startIntent.putExtra("CollectionScreen", "Collection Screen");
+                startIntent.putExtra("cardCollection", cardList);
                 startActivity(startIntent);
             }
         });
 
-        // Only enable camera button functionality if permission has been granted
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            // Open up the camera to add cards
-            cameraButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        // Open up the camera to add cards
+        cameraButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // Only enable camera button functionality if permission has been granted
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                     CardModel cm;
 
                     try {
                         cm = new CardModel(-1, "Sol Ring", "www.scryfall.com/sol_ring");
-                        DataBaseHelper dataBaseHelper = new DataBaseHelper(MainActivity.this);
                         boolean success = dataBaseHelper.addOne(cm);
                         Toast.makeText(MainActivity.this, "Success=" + success, Toast.LENGTH_SHORT).show();
 
                         openCamera();
-                    }
-                    catch (Exception e) {
+                    } catch (Exception e) {
                         Toast.makeText(MainActivity.this, "DB ERROR", Toast.LENGTH_SHORT).show();
                         cm = new CardModel(-1, "ERROR", "ERROR");
                     }
                 }
-            });
-        };
-    }
+            }
+        });
+    };
 
     // What to do when resuming the app
     @Override
@@ -83,10 +89,10 @@ public class MainActivity extends AppCompatActivity {
     // Check that the user has given us permission to access the camera
     private void askForPermissions() {
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            if (getFromPref(this, ALLOW_KEY)) {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            if (getFromPref(MainActivity.this, ALLOW_KEY)) {
                 showSettingsAlert();
-            } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            } else if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 // Should we show an explanation?
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
                     showAlert();
